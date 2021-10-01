@@ -1,7 +1,7 @@
 #   dependencies
 import requests
 from lxml import html
-from functions import getTitlesAndLinks, getAuthors, getDates
+from functions import getArticlesLinks, getAuthors, getDates, getArticleData
 
 
 data = requests.get('https://cybernews.com/news/page/1')
@@ -14,30 +14,37 @@ aside.getparent().remove(aside)
 numberOfPages = int(tree.findall('.//*[@class="pagination__number"][last()-1]')[0].text)
 assert type(numberOfPages) == int
 
-titlesAndLinks = getTitlesAndLinks(tree, True)
-titlesAndLinks["authors"] = ["",""]
-titlesAndLinks["authors"].extend(getAuthors(tree))
-titlesAndLinks["dates"] = getDates(tree)
+articlesLinks = getArticlesLinks(tree, True)
+print(articlesLinks)
+for articleLink in articlesLinks:
+    getArticleData(articleLink)
+# titlesAndLinks["authors"] = ["",""]
+focusArticlesLinks = tree.xpath('//a[@class="focus-articles__link"]/@href')
+focusArticle1 = requests.get(focusArticlesLinks[0]).content
+focusArticle1Tree = html.fromstring(focusArticle1)
+# print(len(titlesAndLinks["links"]))
+# titlesAndLinks["authors"].extend(getAuthors(tree))
+# titlesAndLinks["dates"] = getDates(tree)
 
-for i in range(2, numberOfPages+1):
-    data = requests.get(f'https://cybernews.com/news/page/{i}')
-    tree = html.fromstring(data.content)
-    assert type(tree) == html.HtmlElement, "Couldn't get the html content"
+# for i in range(2, numberOfPages+1):
+#     data = requests.get(f'https://cybernews.com/news/page/{i}')
+#     tree = html.fromstring(data.content)
+#     assert type(tree) == html.HtmlElement, "Couldn't get the html content"
 
-    aside = tree.xpath('//aside')[0]
-    aside.getparent().remove(aside)
+#     aside = tree.xpath('//aside')[0]
+#     aside.getparent().remove(aside)
 
-    newTitlesAndLinks = getTitlesAndLinks(tree, False)
-    assert len(newTitlesAndLinks["headers"]) == len(newTitlesAndLinks["links"]), "Headers and links length doesn't match"
-    titlesAndLinks["headers"].extend(newTitlesAndLinks["headers"])
-    titlesAndLinks["links"].extend(newTitlesAndLinks["links"])
-    titlesAndLinks["authors"].extend(getAuthors(tree))
-    titlesAndLinks["dates"].extend(getDates(tree))
-assert len(titlesAndLinks["headers"]) == len(titlesAndLinks["links"]) == len(titlesAndLinks["authors"]), "Headers and links length doesn't match"
-#  == len(titlesAndLinks["dates"])
-print(*titlesAndLinks["headers"], sep="\n")
-print(*titlesAndLinks["links"], sep="\n")
-print(*titlesAndLinks["authors"], sep="\n")
-print(*titlesAndLinks["dates"], sep="\n")
+#     newTitlesAndLinks = getArticlesLinks(tree, False)
+#     assert len(newTitlesAndLinks["headers"]) == len(newTitlesAndLinks["links"]), "Headers and links length doesn't match"
+#     titlesAndLinks["headers"].extend(newTitlesAndLinks["headers"])
+#     titlesAndLinks["links"].extend(newTitlesAndLinks["links"])
+#     titlesAndLinks["authors"].extend(getAuthors(tree))
+#     titlesAndLinks["dates"].extend(getDates(tree))
+# assert len(titlesAndLinks["headers"]) == len(titlesAndLinks["links"]) == len(titlesAndLinks["authors"]), "Headers and links length doesn't match"
+# #  == len(titlesAndLinks["dates"])
+# print(*titlesAndLinks["headers"], sep="\n")
+# print(*titlesAndLinks["links"], sep="\n")
+# print(*titlesAndLinks["authors"], sep="\n")
+# print(*titlesAndLinks["dates"], sep="\n")
 # print(len(titlesAndLinks["authors"]))
 
