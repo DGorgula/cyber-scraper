@@ -48,13 +48,13 @@ def getArticleData(articleLink):
     rawContent = tree.xpath('//div[@class="content"]')[0]
     contentChildren = rawContent.getchildren()
     for el in contentChildren:
-        if el.text != "None":
-            print(el.text)
-        elif el.text.includes("More from CyberNews:"):
-            continue
-        for e in el.getchildren():
-            if e.text != "None":
-                print(e.text)
+        if el.text != None:
+            # print(el.text)
+            if el.text.find("More from CyberNews:") != -1:
+                continue
+            for e in el.getchildren():
+                if (e.text != "None") & (el.text.find("More from CyberNews:") == -1):
+                    print(e.text)
             
 
                     # content.
