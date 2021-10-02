@@ -49,12 +49,14 @@ def getArticleData(articleLink):
     contentChildren = rawContent.getchildren()
     for el in contentChildren:
         if el.text != None:
-            # print(el.text)
             if el.text.find("More from CyberNews:") != -1:
                 continue
-            for e in el.getchildren():
-                if (e.text != "None") & (el.text.find("More from CyberNews:") == -1):
-                    print(e.text)
+            print(el.text)
+        for e in el.getchildren():
+            if e.text != None:
+                if e.text.find("More from CyberNews:") == -1:
+                    continue
+                print(e)
             
 
                     # content.
