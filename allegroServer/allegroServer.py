@@ -2,6 +2,7 @@ from flask import Flask, escape, request
 
 #   Dotenv
 from dotenv import dotenv_values
+import requests
 config = dotenv_values(".env")
 locals().update(config)
 
@@ -35,7 +36,8 @@ def hello(name = "Danks-param"):
 
 @app.route('/author/new', methods=['post'])
 def postAuthor():
-
+    json = request.get_json()
+    print(json)
     authorName = request.get_json()["name"]
     authorAbout = request.get_json()["about"]
     authorImage = request.get_json()["image"]
@@ -67,15 +69,14 @@ def getAllAuthors():
 
 @app.route('/post/new', methods=['post'])
 def postPost():
-
-    postTitle = request.get_json()["title"]
-    postLink = request.get_json()["link"]
-    postImage = request.get_json()["image"]
-    postContent = request.get_json()["content"]
-    postPublishDate = request.get_json()["publishDate"]
+    json = request.get_json()
+    postTitle = json["title"]
+    postLink = json["link"]
+    postImage = json["image"]
+    postContent = json["content"]
+    postPublishDate = json["publishDate"]
     postAuthor = conn.createURI(f'http://example.org/author/{request.get_json()["author"].replace(" ", "-")}')
     newPost = conn.createURI(f'http://example.org/post/{postTitle.replace(" ", "-")}')
-    print(postTitle, postLink, postImage, postContent, postPublishDate, postAuthor)
     conn.add(newPost, RDF.TYPE, post)
     conn.add(newPost, title, postTitle)
     conn.add(newPost, link, postLink)

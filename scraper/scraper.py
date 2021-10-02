@@ -1,9 +1,16 @@
 #   dependencies
+from franz.miniclient.request import jsonRequest
 import requests
 from lxml import html
 from functions import getArticlesLinks, getAuthors, getDates, getArticleData
 
+#   Dotenv
+from dotenv import dotenv_values
+import requests
+config = dotenv_values(".env")
+locals().update(config)
 
+authors = {}
 data = requests.get('https://cybernews.com/news/page/1')
 tree = html.fromstring(data.content)
 assert type(tree) == html.HtmlElement, "Couldn't get the html content"
@@ -15,13 +22,15 @@ numberOfPages = int(tree.findall('.//*[@class="pagination__number"][last()-1]')[
 assert type(numberOfPages) == int
 
 articlesLinks = getArticlesLinks(tree, True)
-print(articlesLinks)
 for articleLink in articlesLinks:
-    getArticleData(articleLink)
+    articleData = getArticleData(articleLink, authors)
+    response = requests.post(f'{DB_SERVER}/post/new', json = articleData)
+for author in authors:
+    response = requests.post(f'{DB_SERVER}/author/new', json = authors[author])
 # titlesAndLinks["authors"] = ["",""]
-focusArticlesLinks = tree.xpath('//a[@class="focus-articles__link"]/@href')
-focusArticle1 = requests.get(focusArticlesLinks[0]).content
-focusArticle1Tree = html.fromstring(focusArticle1)
+# focusArticlesLinks = tree.xpath('//a[@class="focus-articles__link"]/@href')
+# focusArticle1 = requests.get(focusArticlesLinks[0]).content
+# focusArticle1Tree = html.fromstring(focusArticle1)
 # print(len(titlesAndLinks["links"]))
 # titlesAndLinks["authors"].extend(getAuthors(tree))
 # titlesAndLinks["dates"] = getDates(tree)

@@ -37,7 +37,8 @@ def getDates(tree):
     # return len(dates)
     return dates
 
-def getArticleData(articleLink):
+def getArticleData(articleLink, authors):
+    # print("articleLink", articleLink)
     rawData = requests.get(articleLink).content
     tree = html.fromstring(rawData)
     tree = removeAside(tree)
@@ -46,22 +47,35 @@ def getArticleData(articleLink):
     date = tree.xpath('//time/text()')[0]
     image = tree.xpath('//figure/img/@data-src')[0]
     rawContent = tree.xpath('//div[@class="content"]')[0]
-    contentChildren = rawContent.getchildren()
-    for el in contentChildren:
-        if el.text != None:
-            if el.text.find("More from CyberNews:") != -1:
-                continue
-            print(el.text)
-        for e in el.getchildren():
-            if e.text != None:
-                if e.text.find("More from CyberNews:") == -1:
-                    continue
-                print(e)
-            
+    rawContent = removeIrrelevantElements(rawContent)
+    content = rawContent.text_content()
 
-                    # content.
     authorElement = tree.xpath('//div[./span][./a]/a')[0]
     authorName = authorElement.text
     authorLink = authorElement.attrib['href']
-    # authorA = tree.xpath('//div[./span][./a]/a/text()')[0]
-    # print(content)
+    if authorName not in authors:
+        authorData = getAuthorData(authorLink)
+        authors[authorName] = authorData
+    return { "link": articleLink, "title": title, "publishDate": date, "image": image, "content": content, "author": authorName}
+
+def getAuthorData(authorUrl):
+    rawData = requests.get(authorUrl).content
+    tree = html.fromstring(rawData)
+    relevantDivChildren = tree.xpath('//div[./div][./h1]')[0]
+    name = relevantDivChildren[0].text.strip()
+    about = relevantDivChildren[1].text.strip()
+    firstName = '"' + name.split(" ")[0] + '"'
+    img = tree.xpath(f'//img[contains(@data-src, {firstName})]/@data-src')
+    if len(img) == 0:
+        img = tree.xpath(f'//img[contains(@data-src, "default")]/@data-src')
+    return {"image": img[0], "name": name, "about": about}
+
+def removeIrrelevantElements(element):
+    elementChildren = element.getchildren()
+    hrFlag = False
+    for subElement in elementChildren:
+        if hrFlag: element.remove(subElement)
+        elif subElement.tag == "hr":
+            hrFlag = True
+            element.remove(subElement)
+    return element
