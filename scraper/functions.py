@@ -1,4 +1,3 @@
-# def getTitlesAndLinks(tree, isFirstTime):
 from lxml import html
 import requests
 
@@ -8,24 +7,18 @@ def removeAside(tree):
     return tree
 
 def getArticlesLinks(tree, isFirstTime):
-    headers = []
     links = []
     if isFirstTime:
         focusArticlesLinks = tree.xpath('//a[@class="focus-articles__link"]/@href')
         links.extend(focusArticlesLinks)
-        # articlesTitles = [articles[0].getchildren()[0].text.replace("\n", ""), articles[1].getchildren()[0].text.replace("\n", "")]
-        # headers.extend(articlesTitles)
     h3 = tree.xpath('.//a[./h3]')
     assert (type(h3) == list) & (len(h3) > 0), "Title scraping didn't work"
     for h in h3:
         header = h.getchildren()
         if (len(header) != 1):
             continue
-        # title = header[0].text.replace("\n", "")
         link = h.attrib["href"]
-        # headers.append(title)
         links.append(link)
-    # return {"headers": headers, "links": links}
     return [*links]
 
 def getAuthors(tree):
@@ -34,15 +27,12 @@ def getAuthors(tree):
 
 def getDates(tree):
     dates = tree.xpath('//*[not(article)]/time/text()')
-    # return len(dates)
     return dates
 
 def getArticleData(articleLink, authors):
-    # print("articleLink", articleLink)
     rawData = requests.get(articleLink).content
     tree = html.fromstring(rawData)
     tree = removeAside(tree)
-    link = articleLink
     title = tree.xpath('//h1/text()')[0]
     date = tree.xpath('//time/text()')[0]
     image = tree.xpath('//figure/img/@data-src')[0]
@@ -65,7 +55,10 @@ def getAuthorData(authorUrl):
     name = relevantDivChildren[0].text.strip()
     about = relevantDivChildren[1].text.strip()
     firstName = '"' + name.split(" ")[0] + '"'
-    img = tree.xpath(f'//img[contains(@data-src, {firstName})]/@data-src')
+    if firstName == '"CyberNews"':
+        img = tree.xpath(f'//img[contains(@data-src, "CNTeam")]/@data-src')
+    else:
+        img = tree.xpath(f'//img[contains(@data-src, {firstName})]/@data-src')
     if len(img) == 0:
         img = tree.xpath(f'//img[contains(@data-src, "default")]/@data-src')
     return {"image": img[0], "name": name, "about": about}
