@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../env.json'
 import PostImage from '../PostImage/PostImage';
+import './Lobby.css'
 
 function Lobby({ setChosenPost }) {
     const [allPosts, setAllPosts] = useState([])
@@ -18,7 +19,7 @@ function Lobby({ setChosenPost }) {
     return (
         <div id="lobby">
 
-            <h1>Welcome to CyberNews Scraper</h1>
+            <h1 className="title">CyberNews Scraper</h1>
             {allPosts.map((post, i) => {
                 return <PostImage key={i} setChosenPost={setChosenPost} postData={post} />
             })}

@@ -1,0 +1,40 @@
+
+#back-button{
+position: fixed;
+left: 1rem;
+top: 2rem;
+font-size: 3rem;
+cursor: pointer;
+transition: all 0.2s ease;
+&:hover{
+    top: 1.5rem;
+    font-size: 4rem;
+}
+}
+#post-title{
+width: fit-content;
+margin: 0 auto;
+    #post-data{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bolder;
+        .publish-date{
+            display: flex;
+            align-items: center;
+            .time-icon{
+                height: 1.2rem;
+            }
+        }
+    }
+}
+.content{
+    margin: 2rem 4rem;
+    padding: 2rem 4rem;
+    font-size: 1.5rem;
+    background-color: rgba($color: #0b1539, $alpha: 0.8);
+    border: 1px solid #1b84d6;
+    p{
+        margin-bottom: 1.5rem;
+    }
+}

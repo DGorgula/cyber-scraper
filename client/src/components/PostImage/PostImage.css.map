@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,AAAA,WAAW,CAAA;EACP,SAAS,EAAE,GAAG;EACd,UAAU,EAAE,KAAK;EACrB,MAAM,EAAE,OAAO;EACf,UAAU,EAAE,cAAc;CAKzB;;AATD,AAMA,WANW,AAMV,MAAM,CAAA;EACH,MAAM,EAAE,iBAAiB;CAC5B",
+    "sources": [
+        "PostImage.scss"
+    ],
+    "names": [],
+    "file": "PostImage.css"
+}

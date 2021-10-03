@@ -1,0 +1,60 @@
+#back-button {
+  position: fixed;
+  left: 1rem;
+  top: 2rem;
+  font-size: 3rem;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+#back-button:hover {
+  top: 1.5rem;
+  font-size: 4rem;
+}
+
+#post-title {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+#post-title #post-data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: bolder;
+}
+
+#post-title #post-data .publish-date {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#post-title #post-data .publish-date .time-icon {
+  height: 1.2rem;
+}
+
+.content {
+  margin: 2rem 4rem;
+  padding: 2rem 4rem;
+  font-size: 1.5rem;
+  background-color: rgba(11, 21, 57, 0.8);
+  border: 1px solid #1b84d6;
+}
+
+.content p {
+  margin-bottom: 1.5rem;
+}
+/*# sourceMappingURL=Post.css.map */

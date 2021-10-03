@@ -1,0 +1,11 @@
+
+.post-image{
+    max-width: 30%;
+    max-height: 12rem;
+cursor: pointer;
+transition: all 0.05s ease;
+
+&:hover{
+    border: 3px solid #1b84d6;
+}
+}
