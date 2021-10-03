@@ -12,13 +12,42 @@ transition: all 0.2s ease;
 }
 }
 #post-title{
-width: fit-content;
-margin: 0 auto;
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    .post-link-container{
+        position:absolute;
+        right: 1rem;
+        top: 0.5rem;
+        background-color: rgba($color: #0b1539, $alpha: 0.8);
+        border-radius: 50%;
+        width:3rem;
+        height:3rem;
+        transition: all 0.3s ease;
+        opacity: 0;
+        cursor: pointer;
+        .post-link{
+            height: 24px;
+            width: 24px;
+            // color: #1b84d6
+            padding: 1rem;
+        }
+    }
+    &:hover{
+        .post-link-container{
+            opacity: 1;
+        }
+    }
     #post-data{
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-weight: bolder;
+        margin-top: 0.3rem;
+        padding: 0 1rem;
+        #author{
+            cursor: pointer;
+        }
         .publish-date{
             display: flex;
             align-items: center;

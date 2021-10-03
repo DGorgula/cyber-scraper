@@ -14,10 +14,35 @@
 }
 
 #post-title {
+  position: relative;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
+}
+
+#post-title .post-link-container {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  background-color: rgba(11, 21, 57, 0.8);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#post-title .post-link-container .post-link {
+  height: 24px;
+  width: 24px;
+  padding: 1rem;
+}
+
+#post-title:hover .post-link-container {
+  opacity: 1;
 }
 
 #post-title #post-data {
@@ -31,6 +56,12 @@
       -ms-flex-align: center;
           align-items: center;
   font-weight: bolder;
+  margin-top: 0.3rem;
+  padding: 0 1rem;
+}
+
+#post-title #post-data #author {
+  cursor: pointer;
 }
 
 #post-title #post-data .publish-date {
