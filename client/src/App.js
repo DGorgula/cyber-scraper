@@ -20,7 +20,7 @@ function App() {
             <Post setChosenPost={setChosenPost} chosenPost={chosenPost} setChosenAuthor={setChosenAuthor} />
           </Route>
           <Route path="/author/:authorName">
-            <Author authorData={chosenAuthor} chosenPost={chosenPost} />
+            <Author authorData={chosenAuthor} chosenPost={chosenPost} setChosenAuthor={setChosenAuthor} />
           </Route>
           <Route path="*">
             <Redirect to="/" />
