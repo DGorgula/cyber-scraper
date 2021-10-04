@@ -92,7 +92,15 @@ def getAllPosts():
         for data in authorRawData:
             if data[1].find("rdf") != -1: continue
             if data[1].find("Author") != -1: 
-                print("should get the author of", data[2])
+                authorData = {}
+                authorRawData = conn.getStatements(data[2]).string_tuples;
+                print(authorData)
+                postsData[nextIndex]["author"] = authorData
+                for tuple in authorRawData:
+                    if tuple[1].find("rdf") != -1: continue
+                    p = tuple[1].replace(">","").split("/")
+                    authorData[p[4]] = tuple[2].replace("\'","").replace('\"',"")
+                continue
             p = data[1].replace(">","").split("/")
             postsData[nextIndex][p[4]] = data[2].replace("\'","").replace('\"',"")
     return {"allPosts": postsData}
