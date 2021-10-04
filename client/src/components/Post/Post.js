@@ -6,7 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LinkIcon from '@mui/icons-material/Link';
 import { Tooltip } from '@mui/material';
 
-function Post({ postData, setChosenPost, chosenPost }) {
+function Post({ postData, setChosenPost, chosenPost, setChosenAuthor, chosenAuthor }) {
     console.log(chosenPost);
     const history = useHistory();
     if (!chosenPost) history.push("/");
@@ -24,7 +24,7 @@ function Post({ postData, setChosenPost, chosenPost }) {
                         <AccessTimeIcon className="time-icon" />
                         <time>{chosenPost["publish-date"]}</time>
                     </div>
-                    <p id="author">{chosenPost.Author}</p>
+                    <p id="author" onClick={() => { setChosenAuthor(chosenPost.author); history.push(`/author/${chosenPost.author.name}`) }}>{chosenPost.author.name}</p>
                 </div>
             </div>
             <div className="content">

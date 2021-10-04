@@ -4,8 +4,10 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import './App.css';
 import Post from './components/Post/Post';
 import Lobby from './components/Lobby/Lobby';
+import Author from './components/Author/Author';
 function App() {
   const [chosenPost, setChosenPost] = useState()
+  const [chosenAuthor, setChosenAuthor] = useState()
 
   return (
     <div className="App">
@@ -15,7 +17,10 @@ function App() {
             <Lobby setChosenPost={setChosenPost} chosenPost={chosenPost} />
           </Route>
           <Route path="/post/:postTitle">
-            <Post setChosenPost={setChosenPost} chosenPost={chosenPost} />
+            <Post setChosenPost={setChosenPost} chosenPost={chosenPost} setChosenAuthor={setChosenAuthor} />
+          </Route>
+          <Route path="/author/:authorName">
+            <Author authorData={chosenAuthor} chosenPost={chosenPost} />
           </Route>
           <Route path="*">
             <Redirect to="/" />
